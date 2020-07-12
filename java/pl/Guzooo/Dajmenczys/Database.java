@@ -3,10 +3,9 @@ package pl.Guzooo.Dajmenczys;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.Toast;
 
 public class Database extends SQLiteOpenHelper {
-
-    public static final String ID = "_id";
 
     private static final String DB_NAME = "dajmenczys";
     private static final int DB_VERSION = 1;
@@ -47,4 +46,20 @@ public class Database extends SQLiteOpenHelper {
     private void createTableDimen(){
 
     }
+
+    public static SQLiteDatabase getToWriting(Context context){
+        SQLiteOpenHelper openHelper = new Database(context);
+        return openHelper.getWritableDatabase();
+    }
+
+    public static SQLiteDatabase getToReading(Context context){
+        SQLiteOpenHelper openHelper = new Database(context);
+        return openHelper.getReadableDatabase();
+    }
+
+    public static void errorToast(Context context){
+        Toast.makeText(context, R.string.error_database, Toast.LENGTH_SHORT).show();
+    }
+
+    //TODO:delsy
 }

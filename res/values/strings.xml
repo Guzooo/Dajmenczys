@@ -2,4 +2,7 @@
     <string name="app_name">Dajmenczys</string>
     <string name="app_G">© Guzooo 2020</string>
     <string name="app_v">v%1$s</string>
+
+    <string name="error_database">Błąd bazy danych</string>
+    <string name="error_empty_dimen_name">Nazwa wartości nie może być pusta</string>
 </resources>

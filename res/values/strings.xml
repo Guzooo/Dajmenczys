@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Dajmenczys</string>
+    <string name="app_G">© Guzooo 2020</string>
+    <string name="app_v">v%1$s</string>
 </resources>

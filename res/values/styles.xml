@@ -1,11 +1,38 @@
 <resources>
 
-    <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimaryG">@color/dark</item>
+        <item name="colorPrimaryDarkG">@color/darkDark</item>
+        <item name="colorPrimaryTranslucentG">@color/darkTranslucent</item>
+        <item name="colorSecondaryG">@color/light</item>
+        <item name="colorSecondaryDarkG">@color/lightDark</item>
+        <item name="colorAccentG">@color/accent</item>
+
+        <item name="colorPrimary">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorPrimaryDark">?attr/colorPrimaryTranslucentG</item>
+        <item name="colorAccent">?attr/colorAccentG</item>
+
+        <item name="android:textViewStyle">@style/TextNormal</item>
+        <item name="android:colorBackground">?attr/colorPrimaryG</item>
+        <item name="android:navigationBarColor">?attr/colorPrimaryTranslucentG</item>
+    </style>
+
+    <style name="AllClickable">
+        <item name="android:minWidth">@dimen/length_minimal</item>
+        <item name="android:minHeight">@dimen/length_minimal</item>
+        <item name="android:background">?android:attr/actionBarItemBackground</item>
+    </style>
+
+    <style name="ClickableImages" parent="AllClickable">
+        <item name="android:layout_width">@dimen/length_minimal</item>
+        <item name="android:layout_height">@dimen/length_minimal</item>
+        <item name="android:padding">@dimen/padding_clickable_image</item>
+        <item name="android:tint">?attr/colorAccentG</item>
+    </style>
+
+    <style name="TextNormal">
+        <item name="android:textColor">?attr/colorSecondaryG</item>
+        <item name="android:textSize">@dimen/size_text_normal</item>
     </style>
 
 </resources>

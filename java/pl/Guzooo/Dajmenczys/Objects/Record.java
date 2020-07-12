@@ -1,14 +1,16 @@
 package pl.Guzooo.Dajmenczys.Objects;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
+import pl.Guzooo.Dajmenczys.Database;
 import pl.Guzooo.DatabaseObject;
 
 public class Record extends DatabaseObject {
     public static final String DATE = "DATE";
 
-    public static final String DATABASE_NAME = "RECORD";
+    public static final String TABLE_NAME = "RECORD";
     public static final String[] ON_CURSOR = new String[]{
             ID,
             DATE
@@ -24,8 +26,8 @@ public class Record extends DatabaseObject {
     }
 
     @Override
-    public String databaseName() {
-        return DATABASE_NAME;
+    public String tableName() {
+        return TABLE_NAME;
     }
 
     /*@Override
@@ -37,6 +39,18 @@ public class Record extends DatabaseObject {
     public void setVariablesOfCursor(Cursor cursor) {
         template(cursor.getInt(0),
                 cursor.getString(1));
+    }
+
+    @Override
+    public boolean delete(Context context) {
+        String[] whereArgs = new String[] {Integer.toString(getId())};
+        boolean isDataDelete = Database.delTable(Data.TABLE_NAME,
+                                                Data.ID_RECORD + " = ?",
+                                                whereArgs,
+                                                context);
+        if(!isDataDelete)
+            return false;
+        return super.delete(context);
     }
 
     @Override

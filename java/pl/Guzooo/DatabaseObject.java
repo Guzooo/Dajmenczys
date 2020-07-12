@@ -16,7 +16,7 @@ public abstract class DatabaseObject {
 
     public abstract String[] onCursor();
     //public abstract String extendedQuery();
-    public abstract String databaseName();
+    public abstract String tableName();
 
     public DatabaseObject(){
         setVariablesEmpty();
@@ -29,7 +29,7 @@ public abstract class DatabaseObject {
     public void setVariablesOfId(int id, Context context){
         try {
             SQLiteDatabase db = Database.getToReading(context);
-            Cursor cursor = db.query(databaseName(),
+            Cursor cursor = db.query(tableName(),
                     onCursor(),
                     ID + " = ?",
                     new String[]{Integer.toString(id)},
@@ -49,39 +49,45 @@ public abstract class DatabaseObject {
 
     public abstract void setVariablesEmpty();
 
-    public void insert(Context context){
+    public boolean insert(Context context){
         if(isWrongValue(context))
-            return;
+            return false;
 
         try {
             SQLiteDatabase db = Database.getToWriting(context);
-            db.insert(databaseName(), null, getContentValues());
+            db.insert(tableName(), null, getContentValues());
             db.close();
+            return true;
         } catch (SQLiteException e){
             Database.errorToast(context);
+            return false;
         }
     }
 
-    public void update(Context context){
+    public boolean update(Context context){
         if(isWrongValue(context))
-            return;
+            return false;
 
         try {
             SQLiteDatabase db = Database.getToWriting(context);
-            db.update(databaseName(), getContentValues(), ID + " = ?", new String[]{Integer.toString(id)});
+            db.update(tableName(), getContentValues(), ID + " = ?", new String[]{Integer.toString(id)});
             db.close();
+            return true;
         } catch (SQLiteException e){
             Database.errorToast(context);
+            return false;
         }
     }
 
-    public void delete(Context context){
+    public boolean delete(Context context){
         try {
             SQLiteDatabase db = Database.getToWriting(context);
-            db.delete(databaseName(), ID + " = ?", new String[]{Integer.toString(id)});
+            db.delete(tableName(), ID + " = ?", new String[]{Integer.toString(id)});
             db.close();
+            return true;
         } catch (SQLException e){
             Database.errorToast(context);
+            return false;
         }
     }
 

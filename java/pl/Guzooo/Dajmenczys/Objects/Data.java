@@ -12,7 +12,7 @@ public class Data extends DatabaseObject {
     public static final String ID_DIMEN = "ID_DIMEN";
     public static final String VALUE = "VALUE";
 
-    public static final String DATABASE_NAME = "DATE";
+    public static final String TABLE_NAME = "DATE";
     public static final String[] ON_CURSOR = new String[]{
             ID,
             ID_RECORD,
@@ -30,8 +30,8 @@ public class Data extends DatabaseObject {
     }
 
     @Override
-    public String databaseName() {
-        return DATABASE_NAME;
+    public String tableName() {
+        return TABLE_NAME;
     }
 
     @Override

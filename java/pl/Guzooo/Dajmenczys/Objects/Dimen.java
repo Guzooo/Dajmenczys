@@ -5,13 +5,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.Toast;
 
+import pl.Guzooo.Dajmenczys.Database;
 import pl.Guzooo.Dajmenczys.R;
 import pl.Guzooo.DatabaseObject;
 
 public class Dimen extends DatabaseObject {
     public static final String NAME = "NAME";
 
-    public static final String DATABASE_NAME = "DIMEN";
+    public static final String TABLE_NAME = "DIMEN";
     public static final String[] ON_CURSOR = new String[]{
             ID,
             NAME
@@ -25,8 +26,8 @@ public class Dimen extends DatabaseObject {
     }
 
     @Override
-    public String databaseName() {
-        return DATABASE_NAME;
+    public String tableName() {
+        return TABLE_NAME;
     }
 
     @Override
@@ -38,6 +39,18 @@ public class Dimen extends DatabaseObject {
     @Override
     public void setVariablesEmpty() {
         template(0, "");
+    }
+
+    @Override
+    public boolean delete(Context context) {
+        String[] whereArgs = new String[] {Integer.toString(getId())};
+        boolean isDataDelete = Database.delTable(Data.TABLE_NAME,
+                                                Data.ID_DIMEN + " = ?",
+                                                whereArgs,
+                                                context);
+        if(!isDataDelete)
+            return false;
+        return super.delete(context);
     }
 
     @Override

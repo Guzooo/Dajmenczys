@@ -3,6 +3,11 @@
     <dimen name="size_text_normal">14sp</dimen>
 
     <dimen name="margin_standard">8dp</dimen>
+    <dimen name="margin_biggest">16dp</dimen>
     <dimen name="padding_clickable_image">8dp</dimen>
     <dimen name="length_minimal">48dp</dimen>
+
+    <dimen name="height_card">50dp</dimen>
+    <dimen name="margin_card">5dp</dimen>
+    <dimen name="corner_radius_card">10dp</dimen>
 </resources>

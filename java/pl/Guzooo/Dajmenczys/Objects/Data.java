@@ -85,7 +85,14 @@ public class Data extends DatabaseObject {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(String value){
+        int v = 0;
+        if(!value.isEmpty())
+            v = Integer.valueOf(value);
+        setValue(v);
+    }
+
+    private void setValue(int value) {
         this.value = value;
     }
 

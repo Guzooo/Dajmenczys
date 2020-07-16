@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 
+import pl.Guzooo.CalendarUtils;
 import pl.Guzooo.Dajmenczys.Database;
 import pl.Guzooo.DatabaseObject;
 
@@ -15,8 +16,6 @@ public class Record extends DatabaseObject {
             ID,
             DATE
     };
-
-    private final String SPLITTER = "/";
 
     private String date;
 
@@ -56,7 +55,7 @@ public class Record extends DatabaseObject {
     @Override
     public void setVariablesEmpty() {
         template(0,
-                "0"/*TODO: dzisiejsza date*/);
+                CalendarUtils.getTodayWithTimeToWrite());
     }
 
     @Override
@@ -67,13 +66,7 @@ public class Record extends DatabaseObject {
     }
 
     public String getDate(){
-        int day = getDay();
-        int month = getMonth();//TODO: bardziej atraktcyjne wyswietlanie
-        return day + "."
-                + month + "."
-                + getYear() + " "
-                + getHour() + ":"
-                + getMinute();
+        return CalendarUtils.getDateToRead(date);
     }
 
     public int getYear(){
@@ -98,14 +91,22 @@ public class Record extends DatabaseObject {
 
     public int getMinute(){
         String minute = splittedDate()[4];
-        return Integer.valueOf(minute);
+        return Integer.valueOf(minute)-1;
     }
 
-    public void setDate(int year, int month, int day, int hour, int minute){
-        date = year + SPLITTER
-                + month + SPLITTER
-                + day + SPLITTER
-                + hour + SPLITTER
+    public void setDate(int year, int month, int day){
+        setDate(year, month, day, getHour(), getMinute());
+    }
+
+    public void  setDate(int hour, int minute){
+        setDate(getYear(), getMonth(), getDay(), hour, minute);
+    }
+
+    private void setDate(int year, int month, int day, int hour, int minute){
+        date = year + CalendarUtils.DATA_SPLITTER
+                + month + CalendarUtils.DATA_SPLITTER
+                + day + CalendarUtils.DATA_SPLITTER
+                + hour + CalendarUtils.DATA_SPLITTER
                 + minute;
     }
 
@@ -120,6 +121,6 @@ public class Record extends DatabaseObject {
     }
 
     private String[] splittedDate(){
-        return date.split(SPLITTER);
+        return date.split(CalendarUtils.DATA_SPLITTER);
     }
 }

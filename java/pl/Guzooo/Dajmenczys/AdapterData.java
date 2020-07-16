@@ -2,22 +2,24 @@ package pl.Guzooo.Dajmenczys;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import pl.Guzooo.Dajmenczys.Objects.Dimen;
 
-public class AdapterDimens extends RecyclerView.Adapter<AdapterDimens.ViewHolder> {
+public class AdapterData extends RecyclerView.Adapter<AdapterData.ViewHolder> {
     private Listener listener;
     private Cursor cursor;
 
     public interface Listener{
-        void onClickDelete(int id);
+        void endEdit(int position, EditText editText);
     }
 
     public void setListener(Listener listener){
@@ -27,13 +29,13 @@ public class AdapterDimens extends RecyclerView.Adapter<AdapterDimens.ViewHolder
     public static class ViewHolder extends RecyclerView.ViewHolder{
         private View mainView;
         private TextView title;
-        private ImageView del;
+        private EditText value;
 
         public ViewHolder(View v){
             super(v);
             mainView = v;
             title = v.findViewById(R.id.title);
-            del = v.findViewById(R.id.del);
+            value = v.findViewById(R.id.edit_text);
         }
 
         private Context getContext(){
@@ -48,17 +50,17 @@ public class AdapterDimens extends RecyclerView.Adapter<AdapterDimens.ViewHolder
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_dimens, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_dates, parent, false);
         return new ViewHolder(v);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if(cursor.moveToPosition(position)){
-            Dimen dimen = getDimen();
-            holder.setTitle(dimen);
-            setOnClickThisView(holder, position);
-        }
+       if(cursor.moveToPosition(position)){
+           Dimen dimen = getDimen();
+           holder.setTitle(dimen);
+           setOnEditText(holder, position);
+       }
     }
 
     @Override
@@ -66,7 +68,7 @@ public class AdapterDimens extends RecyclerView.Adapter<AdapterDimens.ViewHolder
         return cursor.getCount();
     }
 
-    public AdapterDimens(Cursor cursor){
+    public AdapterData(Cursor cursor){
         this.cursor = cursor;
     }
 
@@ -81,13 +83,27 @@ public class AdapterDimens extends RecyclerView.Adapter<AdapterDimens.ViewHolder
         return dimen;
     }
 
-    private void setOnClickThisView(ViewHolder holder, final int position){
-        holder.del.setOnClickListener(new View.OnClickListener() {
+    private void setOnEditText(ViewHolder holder, int position){
+        holder.value.addTextChangedListener(getTextListener(holder, position));
+    }
+
+    private TextWatcher getTextListener(final ViewHolder holder, final int position){
+        return new TextWatcher() {
             @Override
-            public void onClick(View v) {
-                if(listener != null && cursor.moveToPosition(position))
-                    listener.onClickDelete(cursor.getInt(0));
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
-        });
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(listener != null)
+                    listener.endEdit(position, holder.value);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        };
     }
 }
